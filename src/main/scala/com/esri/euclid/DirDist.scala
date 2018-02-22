@@ -28,7 +28,7 @@ case class DirDist[T <: Euclid](mx: Double, my: Double, sx: Double, sy: Double, 
     * @param nPoint number of points on the outline, default is 180.
     * @return iterable of Euclid implementations
     */
-  def ellipseOutline(nPoint: Int = 180)(implicit ctor: EuclidConstructor[T]): Iterable[T] = {
+  def outline(nPoint: Int = 180)(implicit ctor: EuclidConstructor[T]): Iterable[T] = {
     val arr = new ArrayBuffer[T](nPoint)
     var t = 0.0
     val dt = 1.0 / nPoint
@@ -53,11 +53,11 @@ case class DirDist[T <: Euclid](mx: Double, my: Double, sx: Double, sy: Double, 
   }
 
   /**
-    * Calc the location of the major nodes.
+    * Calculate and return the location of the major ends.
     *
     * @return Seq of two elements.
     */
-  def majorNodes()(implicit ctor: EuclidConstructor[T]): Seq[T] = {
+  def majorEnds()(implicit ctor: EuclidConstructor[T]): Seq[T] = {
     val alpha = (90 - deg).toRadians
     val cosA = math.cos(alpha)
     val sinA = math.sin(alpha)

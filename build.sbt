@@ -2,7 +2,7 @@ organization := "com.esri"
 
 name := "euclid"
 
-version := "0.20"
+version := "0.1"
 
 isSnapshot := true
 

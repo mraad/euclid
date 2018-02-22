@@ -15,7 +15,7 @@ import scala.math._
   * @param deg ellipse rotation
   * @param n   number of points used.
   */
-case class DirDist(mx: Double, my: Double, sx: Double, sy: Double, deg: Double, n: Int) {
+case class DirDist[T <: Euclid](mx: Double, my: Double, sx: Double, sy: Double, deg: Double, n: Int) {
 
   /**
     * @return the area of the directional distribution ellipse at one standard deviation.
@@ -28,8 +28,8 @@ case class DirDist(mx: Double, my: Double, sx: Double, sy: Double, deg: Double, 
     * @param nPoint number of points on the outline, default is 180.
     * @return iterable of Euclid implementations
     */
-  def ellipseOutline(nPoint: Int = 180): Iterable[Euclid] = {
-    val arr = new ArrayBuffer[Euclid](nPoint)
+  def ellipseOutline(nPoint: Int = 180)(implicit ctor: EuclidConstructor[T]): Iterable[T] = {
+    val arr = new ArrayBuffer[T](nPoint)
     var t = 0.0
     val dt = 1.0 / nPoint
 
@@ -45,7 +45,7 @@ case class DirDist(mx: Double, my: Double, sx: Double, sy: Double, deg: Double, 
       val y = min * math.sin(r)
       val rx = x * cosA - y * sinA
       val ry = x * sinA + y * cosA
-      arr.append(EuclidImpl(mx + rx, my + ry))
+      arr.append(ctor.construct(mx + rx, my + ry))
       t += dt
       n += 1
     }
@@ -57,7 +57,7 @@ case class DirDist(mx: Double, my: Double, sx: Double, sy: Double, deg: Double, 
     *
     * @return Seq of two elements.
     */
-  def majorNodes(): Seq[Euclid] = {
+  def majorNodes()(implicit ctor: EuclidConstructor[T]): Seq[T] = {
     val alpha = (90 - deg).toRadians
     val cosA = math.cos(alpha)
     val sinA = math.sin(alpha)
@@ -68,7 +68,7 @@ case class DirDist(mx: Double, my: Double, sx: Double, sy: Double, deg: Double, 
       val y = min * math.sin(r)
       val rx = x * cosA - y * sinA
       val ry = x * sinA + y * cosA
-      EuclidImpl(mx + rx, my + ry)
+      ctor.construct(mx + rx, my + ry)
     })
   }
 }
@@ -84,7 +84,7 @@ object DirDist extends Serializable {
     * @param minPoints the min number of points to use. default is 3.
     * @return DirDist option.
     */
-  def apply(datum: Iterable[Euclid], minPoints: Int = 3): Option[DirDist] = {
+  def apply[T <: Euclid](datum: Iterable[T], minPoints: Int = 3): Option[DirDist[T]] = {
 
     val mu = datum.foldLeft(OnlineMu())(_ + _)
 
@@ -118,7 +118,7 @@ object DirDist extends Serializable {
         val sigX = sqrt(2.0) * sqrt(tx / mu.n)
         val sigY = sqrt(2.0) * sqrt(ty / mu.n)
 
-        Some(new DirDist(mu.mx, mu.my, sigX, sigY, deg, mu.n))
+        Some(new DirDist[T](mu.mx, mu.my, sigX, sigY, deg, mu.n))
       }
     } else {
       None

@@ -40,3 +40,16 @@ case class Extent(xmin: Double = Double.PositiveInfinity,
   def height(): Double = ymax - ymin
 
 }
+
+/**
+  * Companion object
+  */
+object Extent extends Serializable {
+  /**
+    * Create an Extent instance from Euclid instances.
+    *
+    * @param traversable Euclid instance.
+    * @return the extent of the Euclid instance.
+    */
+  def apply(traversable: TraversableOnce[Euclid]): Extent = traversable.foldLeft(new Extent())(_ + _)
+}

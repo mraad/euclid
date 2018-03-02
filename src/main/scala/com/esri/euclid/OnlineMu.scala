@@ -19,7 +19,7 @@ case class OnlineMu(var n: Int = 0, var mx: Double = 0.0, var my: Double = 0.0) 
     * @return this OnlineMu instance.
     */
   def +(euclid: Euclid): OnlineMu = {
-    this + (euclid.x, euclid.y)
+    this.add(euclid.x, euclid.y)
   }
 
   /**
@@ -29,7 +29,7 @@ case class OnlineMu(var n: Int = 0, var mx: Double = 0.0, var my: Double = 0.0) 
     * @param y the y value to add.
     * @return this OnlineMu instance.
     */
-  def +(x: Double, y: Double): OnlineMu = {
+  def add(x: Double, y: Double): OnlineMu = {
     n += 1
 
     val dx = x - mx

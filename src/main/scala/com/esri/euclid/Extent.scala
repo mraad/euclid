@@ -30,6 +30,22 @@ case class Extent(xmin: Double = Double.PositiveInfinity,
   }
 
   /**
+    * Expand the extent with given x,y values.
+    *
+    * @param x the x value to include.
+    * @param y the y value to include.
+    * @return a new Extent instance.
+    */
+  def add(x: Double, y: Double) = {
+    Extent(
+      xmin min x,
+      ymin min y,
+      xmax max x,
+      ymax max y
+    )
+  }
+
+  /**
     * @return the width of the extent.
     */
   def width(): Double = xmax - xmin

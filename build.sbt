@@ -2,13 +2,13 @@ organization := "com.esri"
 
 name := "euclid"
 
-version := "0.3"
+version := "0.5"
 
 isSnapshot := true
 
 publishMavenStyle := true
 
-crossScalaVersions := Seq("2.10.6", "2.11.8")
+crossScalaVersions := Seq("2.10.6", "2.11.12")
 
 resolvers += Resolver.mavenLocal
 

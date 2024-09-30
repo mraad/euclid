@@ -4,21 +4,19 @@ Simple Euclidean trait and classes.
 
 ### Building the project
 
-Using SBT:
-
-```
-sbt +publishM2 +publishLocal
-```
-
-Using Maven:
-
-Compile based on Scala 2.11.12
+- Compile based on Scala 2.12.15
 
 ```
 mvn clean install
 ```
 
-To compile for Scala 2.10
+- To compile for Scala 2.11
+
+```
+mvn -Pscala-2.11 clean install
+```
+
+- To compile for Scala 2.10
 
 ```
 mvn -Pscala-2.10 clean install
